@@ -1,0 +1,756 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta http-equiv="x-ua-compatible" content="ie=edge">
+<title>Patent Relevancy Classification System</title>
+<meta name="description" content="">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="shortcut icon" href="static/favicon.ico" type="image/x-icon">
+
+<link rel="stylesheet" href="static/css/bootstrap.min.css">
+
+<!-- Main CSS - Main Styles -->
+<link rel="stylesheet" href="static/css/main.css">
+<script src="static/js/modernizr-2.8.3.min.js"></script>
+
+<!-- font-awesome CSS  -->
+<link rel="stylesheet" href="static/css/font-awesome.min.css">
+<link rel="stylesheet" href="static/css/jQuery-plugin-progressbar.css">
+
+
+<style>
+#chartdiv {
+  width: 100%;
+  max-width: 100%;
+height:550px;
+}
+</style>
+
+<!-- Resources -->
+<script src="https://www.amcharts.com/lib/4/core.js"></script>
+<script src="https://www.amcharts.com/lib/4/charts.js"></script>
+<script src="https://www.amcharts.com/lib/4/plugins/forceDirected.js"></script>
+<script src="https://www.amcharts.com/lib/4/themes/animated.js"></script>
+
+<!-- Chart code -->
+
+
+
+<style>
+
+
+html{
+      background-color: #e8eaed;
+}
+
+.fullbody{
+  width=100%;
+  height=100%;
+  display:flex;
+  flex-direction: column;
+}
+
+.topnav {
+ background-color: #56d7dd;
+ height:20%;
+
+ border-bottom: 1px solid black;
+	border-top:0.5px solid black;
+ margin: 0 auto;
+    width:100%;
+
+
+    flex-shrink:0;
+    flex-grow:1;
+}
+
+.body2{
+  margin: 0 auto;
+    width:100%;
+    text-align: center;
+    height:80%;
+
+
+    flex-shrink:0;
+}
+
+.heading{
+  font-size: 3.5em;
+      font-weight: 700;
+      position: relative;
+      top:5%;
+      left:10%;
+
+}
+.centernav{
+  display: block;
+  position:relative;
+  margin:27px 0 0 0;
+
+}
+.upload{
+	position: relative;
+	border:1px solid black;
+	width:80%;
+	height: 50px;
+  display:flex;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 1%;
+  overflow:hidden;
+
+	 background-color: #d4d7d8;
+
+
+}
+.category{
+	position:relative;
+	border:1px solid black;
+	width:80%;
+  display:flex;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 5%;
+	height:50px;
+
+
+	 background-color: #d4d7d8;
+}
+.zoom{
+	position:relative;
+	border:1px solid black;
+	width:80%;
+	height:50px;
+  display:flex;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 5%;
+	 background-color: #d4d7d8;
+}
+.batch{
+	position:relative;
+	border:1px solid black;
+	width:80%;
+	height:50px;
+  display:flex;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 5%;
+	 background-color: #d4d7d8;
+}
+.submit{
+	position:relative;
+	width:80%;
+	height:45px;
+
+  margin-left: -9.4%;
+  margin-right: auto;
+  margin-top: 5%;
+  text-align: center;
+}
+.main{
+	position:absolute;
+  float: left;
+  width:60%;
+  height:83%;
+    background-color: #e8eaed;
+  border-right: 2px dotted black;
+
+}
+.upload-text{
+
+
+	font-size: 1.2em;
+	font-weight: 600;
+  width:50%;
+  margin-top: auto;
+  margin-bottom: auto;
+  margin-right: auto;
+  margin-left: 4.5%;
+  text-align: left;
+
+
+}
+.upload-file{
+	margin-top: auto;
+  margin-bottom: auto;
+  margin-left: 5%;
+  margin-right: 5%;
+	border:1px solid black;
+    width:50%;
+
+}
+.category-text{
+width: 50%;
+  margin-top: auto;
+  margin-bottom: auto;
+  margin-left: 4.5%;
+  margin-right: auto;
+		font-size: 1.2em;
+		font-weight: 600;
+    text-align: left;
+}
+.category-select{
+  width: 50%;
+    margin-top: auto;
+    margin-bottom: auto;
+    margin-left: 5%;
+    margin-right: 5%;
+
+		border:1px solid black;
+	  height: 30px;
+}
+.zoom-text{
+  width:50%;
+margin-top: auto;
+margin-bottom: auto;
+margin-left: 4.5%;
+margin-right: auto;
+text-align:left;
+
+		font-size: 1.2em;
+			font-weight: 600;
+}
+.select-zoom{
+  width:50%;
+margin-top: auto;
+margin-bottom: auto;
+margin-left: 5%;
+margin-right: 5%;
+
+		border:1px solid black;
+}
+.batch-text{
+  width:50%;
+margin-top: auto;
+margin-bottom: auto;
+margin-left: 4.5%;
+margin-right: auto;
+ text-align: left;
+		font-size: 1.2em;
+		font-weight: 600;
+}
+.batch-input{
+  width:50%;
+margin-top: auto;
+margin-bottom: auto;
+margin-left: 5%;
+margin-right: 5%;
+
+		border:1px solid black;
+}
+select {
+  text-align: center;
+  text-align-last: center;
+  /* webkit*/
+}
+input[type="text"]{
+	text-align:center;
+}
+.custom{
+	width:265px;
+	margin:8px 0 0 295px;
+}
+
+option{
+	font-weight: bold;
+}
+.confidence{
+    width:140px;
+    background-color: #68889E;
+    height:100px;
+    position: absolute;
+    top:35%;
+    left:84%;
+    float:left;
+    border-radius: 10px;
+    padding:15px;
+}
+.confidence-text{
+  font-size: 1em;
+  font-weight: bold;
+  position:absolute;
+  left:31%;
+}
+.confidence-text-text{
+  position:absolute;
+  left:8%;
+  font-size: 2em;
+  font-weight: bold;
+}
+.previous
+{
+	height:300px;
+	width:100%;
+  background-color: white;
+	position:relative;
+
+  margin-top: -1.5%;
+  margin-bottom: auto;
+  margin-left: auto;
+  margin-right: auto;
+
+
+  border-left: 1px;
+
+  overflow: auto;
+	font-size: 1.2em;
+	font-weight: 300;
+  list-style: circle;
+
+  display: block;
+
+}
+.download{
+  position:absolute;
+  height:100px;
+  width:100px;
+  top:58%;
+  left:85%;
+}
+.next{
+  position:absolute;
+  height:100px;
+  width:100px;
+  top:84%;
+  left:85%;
+}
+.previous a{
+   display: block;
+
+}
+
+.previous a:hover{
+
+  background-color: #aac4ed;
+}
+.previous li a{
+  color:black;
+  font-size: 0.81em;
+  margin-left: 10px;
+  margin-top: -2px;
+  text-align: left;
+
+}
+.previous-heading{
+
+ position:relative;
+ top:-2%;
+ width:80%;
+
+margin-left: auto;
+margin-right: auto;
+
+ font-size: 1.4em;
+ font-weight: 600;
+}
+.previous-container{
+	position:relative;
+	border:1px solid black;
+	height:100%;
+	width:30%;
+
+  border-radius:30px;
+      border:2px solid #666;
+
+
+margin-left: 65%;
+margin-right: 5%;
+margin-bottom: 5%;
+
+	padding: 20px;
+  background-color: #d4d7d8;
+}
+
+.lds-roller {
+  display: inline-block;
+  position: absolute;
+  margin-left: 47.5%;
+  margin-right: 50%;
+  margin-top: 17%;
+  margin-bottom: 50%;
+  width: 64px;
+  height: 64px;
+  z-index: 1;
+}
+.lds-roller div {
+  animation: lds-roller 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;
+  transform-origin: 32px 32px;
+}
+.lds-roller div:after {
+  content: " ";
+  display: block;
+  position: absolute;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #8D33FF;
+  margin: -3px 0 0 -3px;
+}
+.lds-roller div:nth-child(1) {
+  animation-delay: -0.036s;
+}
+.lds-roller div:nth-child(1):after {
+  top: 50px;
+  left: 50px;
+}
+.lds-roller div:nth-child(2) {
+  animation-delay: -0.072s;
+}
+.lds-roller div:nth-child(2):after {
+  top: 54px;
+  left: 45px;
+}
+.lds-roller div:nth-child(3) {
+  animation-delay: -0.108s;
+}
+.lds-roller div:nth-child(3):after {
+  top: 57px;
+  left: 39px;
+}
+.lds-roller div:nth-child(4) {
+  animation-delay: -0.144s;
+}
+.lds-roller div:nth-child(4):after {
+  top: 58px;
+  left: 32px;
+}
+.lds-roller div:nth-child(5) {
+  animation-delay: -0.18s;
+}
+.lds-roller div:nth-child(5):after {
+  top: 57px;
+  left: 25px;
+}
+.lds-roller div:nth-child(6) {
+  animation-delay: -0.216s;
+}
+.lds-roller div:nth-child(6):after {
+  top: 54px;
+  left: 19px;
+}
+.lds-roller div:nth-child(7) {
+  animation-delay: -0.252s;
+}
+.lds-roller div:nth-child(7):after {
+  top: 50px;
+  left: 14px;
+}
+.lds-roller div:nth-child(8) {
+  animation-delay: -0.288s;
+}
+.lds-roller div:nth-child(8):after {
+  top: 45px;
+  left: 10px;
+}
+@keyframes lds-roller {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+
+form{
+      background-color: #eff1f2;
+}
+
+html{
+overflow:hidden;
+}
+
+</style>
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<script type='text/javascript' src='http://code.jquery.com/jquery-latest.min.js'>
+</script>
+
+</head>
+
+<script type="text/javascript">
+
+  function goBack() {
+    window.history.back()
+  }
+
+
+  document.addEventListener("DOMContentLoaded", init, false);
+
+    var batchfiles=[]
+
+  function populate(batch){
+
+      var confidence = batch.substr(batch.indexOf("$")+1)
+
+      batch = batch.substr(0,batch.indexOf("$")-4)
+
+      var myul = document.getElementById("mylist");
+
+      var li = document.createElement("li");
+
+      var aTag=document.createElement("a");
+
+      var ind=batch.indexOf(".")
+
+      var f1=(batch.substr(0,ind))
+
+      console.log(f1)
+
+      var f2=batch.substr(ind+1)
+
+      ind=f2.indexOf(".")
+
+      f2=(f2.substr(0,ind))
+
+      f2=f2.substr(4)
+
+      console.log(f2)
+
+      if(f2.includes("unsupervised")==true){
+
+          f2=(f2.substr(0,(f2.indexOf("unsupervised"))))
+
+          f2=f2+" (U)"
+
+          console.log(f2)
+
+      }
+
+      else{
+
+          f2=(f2.substr(0,(f2.indexOf("supervised"))))
+
+          f2=f2+" (S)"
+
+          console.log(f2)
+
+      }
+
+      console.log(batch.length)
+
+      aTag.innerHTML = f1+" "+f2 + " (" + confidence + ")";
+
+      path='/static/outputs/'+batch
+
+      aTag.setAttribute('onclick',"window.open(path, '_blank'); return true;");
+
+      li.appendChild(aTag);
+
+      myul.appendChild(li);
+
+  }
+
+
+  function init(){
+
+      $.get("/get_uploaded_file1", function(data){
+          filename=data
+          console.log('filename='+filename)
+          document.getElementById('message').innerHTML='Preliminary relevancy prediction of ' + filename + ' using unsupervised methods'
+      });
+
+      $("#download_button").click(function(){
+          $.get("/save_dataframe1", function(data){
+            alert("Path: " + data);
+          });
+      });
+
+    
+  }
+
+  am4core.ready(function() {
+
+// Themes begin
+//am4core.useTheme(am4themes_animated);
+// Themes end
+
+  
+
+      names=['Total\n4025','Relevant\n1504','Irrelevant\n2500']
+
+
+      var chart = am4core.create("chartdiv", am4plugins_forceDirected.ForceDirectedTree);
+      //chart.legend = new am4charts.Legend();
+
+      var networkSeries = chart.series.push(new am4plugins_forceDirected.ForceDirectedSeries())
+
+      //networkSeries.data={{ data|safe }}
+
+      var seriesdata;
+
+      $.get("/get_json_data", function(data){
+
+              data = data.replace(/'/g, '"');
+
+              //data="\"\"\""+data+"\"\"\""
+              
+              //data=str(data)
+
+              console.log(data)
+
+              //data=str(data)
+
+              data=data.toString()
+
+              var obj = JSON.parse(data);
+              //obj=data
+              seriesdata=obj
+              //console.log(seriesdata)
+              networkSeries.data=seriesdata
+              //networkSeries.data=data
+      });
+
+      
+      
+      
+
+      /*networkSeries.data = 
+      [
+          {
+              "name": names[0],
+              "value":10,
+              "children": [
+              {
+                  "name": names[1], 
+                  "value": 5
+                },
+              {
+                  "name": names[2], 
+                  "value": 6
+                }
+              ]
+          }
+      ]*/
+
+
+      networkSeries.dataFields.linkWith = "linkWith";
+      networkSeries.dataFields.name = "name";
+      networkSeries.dataFields.id = "name";
+      networkSeries.dataFields.value = "value";
+      networkSeries.dataFields.children = "children";
+
+      networkSeries.nodes.template.tooltipText = "{name}";
+      networkSeries.nodes.template.fillOpacity = 1;
+
+      networkSeries.nodes.template.label.text = "{name}";
+
+
+      networkSeries.fontSize = 12;
+      networkSeries.maxLevels = 1;
+      networkSeries.dataFields.collapsed = true;
+      networkSeries.maxRadius = am4core.percent(10);
+      networkSeries.manyBodyStrength = -40;
+      networkSeries.nodes.template.label.hideOversized = true;
+      networkSeries.nodes.template.label.truncate = false;
+
+  });
+
+
+</script>
+
+<body class="inside-bg">
+
+   <div class="fullbody">
+
+      <div class="row header">
+      <div class="col-md-7 header-left"><a href="static/index.html"><img src="static/img/logo-inside.png"></a><span>Patent Relevancy Classification System</span></div>
+      </div>
+
+
+
+ <div class="summary-cont">
+ <div class="row insideheader">
+        <div class="col-md-7"> <p  id="message">
+                       
+                        </p></div>
+        <div class="col-md-5 algo-right">Algorithm Confidence
+          <span>{{Confidence}}</span>
+        </div>
+      </div>
+
+</div>
+
+       
+      
+     
+      
+    <!--
+
+       <div class="col-md-5 algo-right">Algorithm Confidence
+          <div class="progress-bar position" data-percent="90" data-duration="1000" data-color="#e8e8e8,#ababab"><div class="confidence-text-text">{{Confidence}}</div></div>
+        </div>
+
+      -->
+
+
+       
+      <div>
+
+          
+
+          <center>
+
+            <div id="chartdiv" style="height: 400px;width: 90%;background-color: white;">
+              
+            </div>
+
+          </center>
+
+
+
+          <!--
+
+          <div class="confidence">
+                  <div class="confidence-text" style=" color:white;">Algorithm Confidence<br><div class="confidence-text-text">{{Confidence}}</div></div>
+          </div>
+
+        
+
+          <div class="download">
+                  <button id="download_button" class="btn btn-primary btn-lg">Download
+                    <br>
+                    as Excel
+                    </br>
+                    <span style='font-size:20px;'>&#8595;</span>
+                  </button>
+          </div>
+
+        
+          <div class="next">
+                  <a href="/next" class="btn btn-primary btn-lg">Next Step
+                    <br>
+                    <span style='font-size:20px;'>&#8594;</span>
+                  </a>
+          </div>
+
+        -->
+
+        <div class="button-cont">
+        <button class="btn hvr-shutter-out-horizontal" type="button" onclick="goBack()"><i class="fa fa-arrow-left" aria-hidden="true"></i> Go to Previous page</button>
+        <button id="download_button" type="button" class="btn btn-inside"><i class="fa fa-download" aria-hidden="true"></i> Download  as Excel</button>
+        <a href="/unsupervisedoutput">
+        <button type="button" class="btn btn-inside"><i class="fa fa-home" aria-hidden="true"></i> Go to Next page</button>
+        </a> </div>
+    </div>
+    <div class="inside-footer">&copy; 2019 Reliance Industries Limited. All rights reserved.</div>
+        
+
+      </div>
+
+   </div>
+
+   <script src="static/js/jquery-3.1.1.min.js"></script> 
+<script src="static/js/jQuery-plugin-progressbar.js"></script> 
+<script type="static/text/javascript">$(".progress-bar").loading();</script> 
+<!-- Bootstrap JS --> 
+<script src="static/js/bootstrap.min.js"></script> 
+
+<!-- Initialize plugins in Main JS --> 
+<script src="static/js/main.js"></script>
+
+</body>
+</html>

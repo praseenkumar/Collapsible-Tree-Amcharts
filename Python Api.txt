@@ -1,0 +1,43 @@
+@app.route('/get_json_data',methods=['GET'])
+def get_json_data():
+
+  data=json_format()
+
+  data2=[{'name': 'Total\\n 513',
+  'value': 10,
+  'children': [{'name': 'Relevant\\n61',
+    'value': 10,
+    'children': [{'name': ' Cluster# 1\\n23',
+      'value': 100
+      }]},
+   {'name': 'Irrelevant\\n452',
+    'value': 10,
+    'children': [{'name': ' Cluster# 0\\n11',
+      'value': 100}
+     ]}]}]
+
+
+  data1=[
+          {
+              "name": "Total\n164",
+              "value":10,
+              "children": [
+              {
+                  "name": "Relevant\n63", 
+                  "value": 5
+                },
+              {
+                  "name": "Irrelevant\n101",
+                  "value": 6
+                }
+              ]
+          }
+      ]
+
+  print('json_data=',data)
+
+  #data=str(data)
+
+  data=json.dumps(data,default=str)
+
+  return data
